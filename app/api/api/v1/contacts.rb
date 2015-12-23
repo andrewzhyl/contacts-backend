@@ -8,7 +8,7 @@ module API::V1
 
     helpers do
       def contact_params
-        clean_params(params).require(:contacts).permit(:first_name, :last_name)
+        clean_params(params).require(:contact).permit(:username, :email, :phone_number)
       end
     end
 
@@ -28,11 +28,20 @@ module API::V1
 
       desc 'Create a contact.'
       params do
-        requires :status, type: String, desc: 'Your status.'
+        requires :contact, type: Hash do
+          requires :username
+          requires :email
+          requires :phone_number
+        end
       end
       post do
         # authenticate!
-        Contact.create!(contact_params)
+        contact = Contact.new(contact_params)
+        if contact.save
+          render contact
+        else
+          error!({ errors: contact.errors }, 401)
+        end
       end
 
       # desc 'Update a status.'

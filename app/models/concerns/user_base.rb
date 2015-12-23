@@ -18,7 +18,7 @@ module UserBase
     validates :username, uniqueness: { case_sensitive: false }, format: { with: /\A(?!_|-)([a-zA-Z0-9]|[\-_](?!_|-|$)){3,16}\z/, message: I18n.t('errors.messages.space_name') }, length: {:in => 3..16}, allow_blank: true
     validates :username, exclusion: { in: %w(admin superuser guanliyuan administrator root andrew super) }
     validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/}
-    # validates_uniqueness_of :email, case_sensitive: false, conditions: -> { not_trashed }
+    validates_uniqueness_of :email, case_sensitive: false#, conditions: -> { not_trashed }
     validates :password, length: { minimum: 6 }, on: :create
     validates_length_of :password, :minimum => 6, :if => :in_password_reset
     validates :phone_number, length: { minimum: 11 }, if: :phone_number?
