@@ -137,6 +137,7 @@ GEM
     nokogiri (1.6.7)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
+    puma (2.13.4)
     rack (1.6.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -258,6 +259,7 @@ DEPENDENCIES
   jquery-rails
   jwt
   pg (~> 0.15)
+  puma
   rack-cors
   rails (= 4.2.5)
   rspec-rails (~> 3.0)

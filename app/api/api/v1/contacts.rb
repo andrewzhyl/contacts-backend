@@ -44,27 +44,34 @@ module API::V1
         end
       end
 
-      # desc 'Update a status.'
-      # params do
-      #   requires :id, type: String, desc: 'Status ID.'
-      #   requires :status, type: String, desc: 'Your status.'
-      # end
-      # put ':id' do
-      #   authenticate!
-      #   current_user.statuses.find(params[:id]).update({
-      #                                                    user: current_user,
-      #                                                    text: params[:status]
-      #   })
-      # end
+      desc 'Update a status.'
+        params do
+        requires :contact, type: Hash do
+          requires :username
+          requires :email
+          requires :phone_number
+        end
+      end
+      put ':id' do
+        # authenticate!
+          contact = Contact.find(params[:id])
+          contact.attributes = contact_params
+          if contact.save
+            render contact
+          else
+             error!({ errors: contact.errors }, 401)
+          end
+      end
 
-      # desc 'Delete a status.'
-      # params do
-      #   requires :id, type: String, desc: 'Status ID.'
-      # end
-      # delete ':id' do
-      #   authenticate!
-      #   current_user.statuses.find(params[:id]).destroy
-      # end
+      desc 'Delete a status.'
+      params do
+        requires :id, type: String, desc: 'Contacts ID.'
+      end
+      delete ':id' do
+        # authenticate!
+        # current_user.statuses.find(params[:id]).destroy
+        Contact.find(params[:id]).destroy
+      end
 
     end
   end
