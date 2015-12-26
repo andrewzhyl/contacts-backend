@@ -27,7 +27,7 @@ module API::V1::Defaults
 
       def authenticate!
         begin
-          puts "---------"
+          puts "----22-----"
           puts request.headers.inspect
 
           payload, header = TokenProvider.valid?(token)

@@ -2,9 +2,9 @@ module API::V1
   class Contacts  < Grape::API
     include API::V1::Defaults
 
-    # before do
-    #   authenticate!
-    # end
+    before do
+      authenticate!
+    end
 
     helpers do
       def contact_params
@@ -40,7 +40,7 @@ module API::V1
         if contact.save
           render contact
         else
-          error!({ errors: contact.errors }, 401)
+          error!({ errors: contact.errors }, 422)
         end
       end
 
@@ -59,7 +59,7 @@ module API::V1
           if contact.save
             render contact
           else
-             error!({ errors: contact.errors }, 401)
+             error!({ errors: contact.errors }, 422)
           end
       end
 

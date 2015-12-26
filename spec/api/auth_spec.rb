@@ -69,8 +69,8 @@ describe API::V1::Auth do
         expect(response.status).to eq 200
         parsed_response = JSON.parse response.body
         puts parsed_response.inspect
-        expect(parsed_response['auth_meta']['token']).to_not be_nil
-        expect(parsed_response['auth_meta']['token'].split('.').count).to eq 3
+        expect(parsed_response['token']).to_not be_nil
+        expect(parsed_response['token'].split('.').count).to eq 3
       end
 
       it 'returns id and username of the user' do

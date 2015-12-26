@@ -18,12 +18,11 @@ module API::V1
         end
       end
       post 'signup' do
-        puts "-----#{user_params.inspect}-----"
         @user = User.new(user_params)
         if @user.save
           @token = TokenProvider.issue_token({ user_id: @user.id })
           status 200
-          render @user, meta:  { token: @token }, meta_key: "auth_meta"
+          render @user, meta: @token , meta_key: "token"
         else
           error!({ errors: @user.errors }, 401)
         end
@@ -39,9 +38,9 @@ module API::V1
         if @user && @user.authenticate(params[:password])
           status 200
           @token = TokenProvider.issue_token({ user_id: @user.id })
-          render @user, meta:  { token: @token }, meta_key: "auth_meta"
+          render @user, meta:  @token , meta_key: "token"
         else
-          error!("Invalid email/password combination", 401)
+          error!("无效的用户名或密码", 401)
         end
       end
 
