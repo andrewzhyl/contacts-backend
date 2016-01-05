@@ -24,7 +24,7 @@ module API::V1
           status 200
           render @user, meta: @token , meta_key: "token"
         else
-          error!({ errors: @user.errors }, 401)
+          error!({ errors: @user.errors }, 422)
         end
       end
 

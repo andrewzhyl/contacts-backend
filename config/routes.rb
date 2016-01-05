@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # API
   
   mount API::Base, at: "/"
+  mount GrapeSwaggerRails::Engine => '/swagger'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,0 +1,28 @@
+@startuml
+scale 750 width
+
+title Tradition Page Lifecycle
+
+Client -> Server: Initial Request
+note left of Client : Page Reload!
+Client <--[#0000FF] Server: HTML
+||65||
+Client -> Server: Form POST
+note left of Client : Page Reload!
+Client <--[#0000FF] Server: HTML
+
+@enduml
+
+
+@startuml
+scale 750 width
+
+title SPA Lifecycle
+
+Client -> Server: Initial Request
+Client <--[#0000FF] Server: HTML
+||65||
+Client -> Server: AJAX
+Client <--[#0000FF] Server: JSON {...}
+
+@enduml

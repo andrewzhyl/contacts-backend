@@ -44,8 +44,8 @@ module API::V1
         end
       end
 
-      desc 'Update a status.'
-        params do
+      desc 'Update a contact.'
+      params do
         requires :contact, type: Hash do
           requires :username
           requires :email
@@ -54,22 +54,20 @@ module API::V1
       end
       put ':id' do
         # authenticate!
-          contact = Contact.find(params[:id])
-          contact.attributes = contact_params
-          if contact.save
-            render contact
-          else
-             error!({ errors: contact.errors }, 422)
-          end
+        contact = Contact.find(params[:id])
+        contact.attributes = contact_params
+        if contact.save
+          render contact
+        else
+          error!({ errors: contact.errors }, 422)
+        end
       end
 
-      desc 'Delete a status.'
+      desc 'Delete a contact.'
       params do
-        requires :id, type: String, desc: 'Contacts ID.'
+        requires :id, type: String, desc: 'ID of the contact.'
       end
       delete ':id' do
-        # authenticate!
-        # current_user.statuses.find(params[:id]).destroy
         Contact.find(params[:id]).destroy
       end
 

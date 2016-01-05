@@ -1,0 +1,60 @@
+@startuml
+scale 900 width
+participant "Client\nhttp://app.myapp.com" as Browser
+note left: http://app.exampel.com
+participant "API Server\nhttp://api.myapp.com" as server
+
+title Token-Based Auth
+
+== 登陆授权 ==
+Browser -> server:        POST /api/v1/auth/login \n username=andrewzhyl&password=****activate Browser
+note left: 用户在登录表单中输入 用户名 和 密码 ，然后点击 登录 
+server -> server:         Create a JWT with a secret
+Browser <--[#0000FF] server:        HTTP 200\n{ 'token': ´…´ }
+note right: 请求发送之后，通过在后端查询数据库验证用户的合法性。\n如果请求有效，使用在数据库得到的信息创建一个 token，\n然后在响应头信息中返回这个的信息，\n目的是把这个 token 存储到浏览器的本地存储中
+
+== 数据通信 ==
+Browser -> server:        GET /api/v1/users/1 \n Authorization: Bearer ....JWT....
+note left: 在每次发送访问应用中受限制的后端服务器的请求时提供 token 信息；
+server -> server:         validation token
+Browser <--[#0000FF] server:        HTTP 200\n { user: { username: 'andrewzhyl', token: .... } }
+note right: 如果从请求头信息中拿到的 token 有效，\n允许用户访问受限制的后端服务器，\n并且返回 JSON 或者 XML
+
+@enduml
+
+
+
+@startuml
+scale 900 width
+participant Browser
+note left: http://app.exampel.com
+participant "Server" as server
+
+title Cookie-Based Auth
+
+== 登陆授权 ==
+Browser -> server:        POST /login \nusername=andrewzhyl&password=****
+note left: 用户在登录域输入 用户名 和 密码 ，\n然后点击 登录；
+Browser <--[#0000FF] server:        HTTP 200\nSet-cookie:session=
+note right: 请求发送之后，通过在后端查询数据库验证用户的合法性。\n如果请求有效，使用在数据库得到的信息创建一个 session，\n然后在响应头信息中返回这个 session 的信息，\n目的是把这个 session ID 存储到浏览器中；
+
+== 数据通信 ==
+Browser -> server:        GET /users/1 \nCookie:session=
+note left: 在访问应用中受限制的后端服务器时提供这个 session 信息；
+server -> server:         find and \ndeserialize session
+Browser <--[#0000FF] server:        HTTP 200\n{ user: { username: 'andrewzhyl' } }
+note right: 如果 session 信息有效，允许用户访问受限制的后端服务器，\n并且把渲染好的 HTML 内容返回
+
+@enduml
+
+
+@startuml oauth2-jwt-bearer-authn.png
+component [Json Web Token {
+}
+[header]
+[playod]
+[signature]
+AA_ok -d-> header
+AA_ok -d-> playod
+AA_ok -d-> signature
+@enduml
