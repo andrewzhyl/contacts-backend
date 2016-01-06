@@ -20,7 +20,7 @@ describe API::V1::Auth do
         post '/api/v1/auth/signup', { user: { email: '111111', password: "pass" }, format: :json }
         puts response.status
         puts response.body.inspect
-        expect(response.status).to eq 401
+        expect(response.status).to eq 422
         parsed_response = JSON.parse response.body
         expect(parsed_response['errors']).to_not be_nil
         expect(parsed_response['errors']['email'][0]).to eq "是无效的"
@@ -30,7 +30,7 @@ describe API::V1::Auth do
         post '/api/v1/auth/signup', { user: { email: "email@email.com", password: "pass" }, format: :json }
         puts response.status
         puts response.body.inspect
-        expect(response.status).to eq 401
+        expect(response.status).to eq 422
         parsed_response = JSON.parse response.body
         expect(parsed_response['errors']).to_not be_nil
         expect(parsed_response['errors']['password'][0]).to eq "过短（最短为 6 个字符）"
