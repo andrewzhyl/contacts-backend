@@ -1,7 +1,7 @@
 # Contacts-backend 
 
 ## 简介
-一个简单的 angular.js 实现的联系人管理
+一个简单的联系人管理后端 API 系统
 
 ## 功能
 - JWT(Json Web Token) 登录注册
